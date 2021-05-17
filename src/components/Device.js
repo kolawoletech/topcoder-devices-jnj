@@ -25,6 +25,10 @@ const Device = (props) => {
   };
 
 
+  const calcCheckOut= (time)  => {
+    return dayjs(Date.now()).diff(dayjs.unix(time), 'week')-2680;
+  }
+
   const updateIsCheckedOut = (status) => {
     DeviceDataService.update(currentDevice.id, { isCheckedOut: status })
       .then(() => {
@@ -121,7 +125,7 @@ const Device = (props) => {
                 <strong>Last CheckOut:</strong>
                 
               </label>
-              {currentDevice.lastCheckoutTime}
+              {calcCheckOut(currentDevice.lastCheckoutTime)} -- weeks ago
             </div>
           </form>
 

@@ -9,18 +9,25 @@ const getAll = () => {
 };
 
 const create = (data) => {
+
+  if( getAll.length >= 10){
+    alert("Only 10 Devices allowed in the garage")
+
+  } else {
+    alert("Only 10 Devices allowed in the garage")
+
+  }
 /*   db.get().then((snap)=>{
 
     if (snap.size <10){
       return db.add(data);
 
     } else {
-      alert("Only 10 Devices allowed in the garage")
     }
 
   }) */
 
-  return db.add(data);
+  //return db.add(data);
 
 };
 
