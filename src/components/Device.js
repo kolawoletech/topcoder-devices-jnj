@@ -29,10 +29,10 @@ const Device = (props) => {
     DeviceDataService.update(currentDevice.id, { isCheckedOut: status })
       .then(() => {
         let now = new Date().getHours()
-        let nowInISO = new Date().getHours()
+        let nowInISO = new Date()
 
       
-        let time = dayjs(nowInISO ).unix(); // save it in timestamp
+        let time = dayjs(nowInISO).unix(); // save it in timestamp
 
 
         console.log("Time  is ," ,time);
