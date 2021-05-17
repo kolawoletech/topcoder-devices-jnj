@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import DeviceDataService from "../services/DeviceService";
+import * as dayjs from 'dayjs';
 
 const Device = (props) => {
   const initialDeviceState = {
@@ -27,14 +28,23 @@ const Device = (props) => {
   const updateIsCheckedOut = (status) => {
     DeviceDataService.update(currentDevice.id, { isCheckedOut: status })
       .then(() => {
-        const now = new Date().getHours()
+        let now = new Date().getHours()
+        let nowInISO = new Date().getHours()
 
-        if (now >= 9 && now <= 12 && status === true) {
+      
+        let time = dayjs(nowInISO ).unix(); // save it in timestamp
+
+
+        console.log("Time  is ," ,time);
+        if (now >= 9 && now < 17 && status === true) {
           console.log(now , "time")
-          setCurrentDevice({ ...currentDevice, isCheckedOut: status, lastCheckoutTime });
-          setMessage("The status was updated successfully!");
-        } else {
-          setMessage("You can only Check Out Between 9:00am - 17:00pm");
+          setCurrentDevice({ ...currentDevice, isCheckedOut: status, lastCheckoutTime: time });
+          setMessage("The device was succesfully Checked Out!");
+        } else if (now >= 9 && now < 17 && status === false) {
+          setMessage("The device was succesfully Checked In!");
+
+        }else {
+          setMessage("You can only Check In/Out Between 9:00am - 17:00pm");
 
         }
     
@@ -80,6 +90,7 @@ const Device = (props) => {
               <input
                 type="text"
                 className="form-control"
+                disabled
                 id="title"
                 name="title"
                 value={currentDevice.title}
@@ -101,8 +112,16 @@ const Device = (props) => {
             <div className="form-group">
               <label>
                 <strong>Status:</strong>
+                
               </label>
-              {currentDevice.isCheckedOut ? "Checked In" : "Checked Out"}
+              {currentDevice.isCheckedOut ? "Checked Out" : "Checked In"}
+            </div>
+            <div className="form-group">
+              <label>
+                <strong>Last CheckOut:</strong>
+                
+              </label>
+              {currentDevice.lastCheckoutTime}
             </div>
           </form>
 
@@ -111,14 +130,14 @@ const Device = (props) => {
               className="badge badge-primary mr-2"
               onClick={() => updateIsCheckedOut(false)}
             >
-              Checked Out
+              Check In
             </button>
           ) : (
             <button
               className="badge badge-primary mr-2"
               onClick={() => updateIsCheckedOut(true)}
             >
-              Checked In
+              Check Out
             </button>
           )}
 
