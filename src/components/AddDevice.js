@@ -1,28 +1,31 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/TutorialService";
+import DeviceDataService from "../services/DeviceService";
 
-const AddTutorial = () => {
-  const initialTutorialState = {
+const AddDevice = () => {
+  const initialDeviceState = {
     title: "",
     description: "",
-    published: false
+    lastCheckoutTime: null,
+    isCheckedOut: false
+
   };
-  const [tutorial, setTutorial] = useState(initialTutorialState);
+  const [device, setDevice] = useState(initialDeviceState);
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setTutorial({ ...tutorial, [name]: value });
+    setDevice({ ...device, [name]: value });
   };
 
-  const saveTutorial = () => {
+  const saveDevice = () => {
     var data = {
-      title: tutorial.title,
-      description: tutorial.description,
-      published: false
+      title: device.title,
+      description: device.description,
+      lastCheckoutTime:null,
+      isCheckedOut: false
     };
 
-    TutorialDataService.create(data)
+    DeviceDataService.create(data)
       .then(() => {
         setSubmitted(true);
       })
@@ -31,8 +34,8 @@ const AddTutorial = () => {
       });
   };
 
-  const newTutorial = () => {
-    setTutorial(initialTutorialState);
+  const newDevice = () => {
+    setDevice(initialDeviceState);
     setSubmitted(false);
   };
 
@@ -41,39 +44,41 @@ const AddTutorial = () => {
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={newTutorial}>
+          <button className="btn btn-success" onClick={newDevice}>
             Add
           </button>
         </div>
       ) : (
         <div>
           <div className="form-group">
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">Device Name</label>
             <input
               type="text"
               className="form-control"
               id="title"
               required
-              value={tutorial.title}
+              value={device.title}
               onChange={handleInputChange}
               name="title"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">Model</label>
             <input
               type="text"
               className="form-control"
               id="description"
               required
-              value={tutorial.description}
+              value={device.description}
               onChange={handleInputChange}
               name="description"
             />
           </div>
 
-          <button onClick={saveTutorial} className="btn btn-success">
+          
+
+          <button onClick={saveDevice} className="btn btn-success">
             Submit
           </button>
         </div>
@@ -82,4 +87,4 @@ const AddTutorial = () => {
   );
 };
 
-export default AddTutorial;
+export default AddDevice;

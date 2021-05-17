@@ -1,55 +1,66 @@
 import React, { useState } from "react";
-import TutorialDataService from "../services/TutorialService";
+import DeviceDataService from "../services/DeviceService";
 
-const Tutorial = (props) => {
-  const initialTutorialState = {
+const Device = (props) => {
+  const initialDeviceState = {
     key: null,
     title: "",
     description: "",
-    published: false,
+    lastCheckoutTime: null,
+    isCheckedOut: false
   };
-  const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+  const [currentDevice, setCurrentDevice] = useState(initialDeviceState);
   const [message, setMessage] = useState("");
 
-  const { tutorial } = props;
-  if (currentTutorial.id !== tutorial.id) {
-    setCurrentTutorial(tutorial);
+  const { device } = props;
+  if (currentDevice.id !== device.id) {
+    setCurrentDevice(device);
     setMessage("");
   }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setCurrentTutorial({ ...currentTutorial, [name]: value });
+    setCurrentDevice({ ...currentDevice, [name]: value });
   };
 
-  const updatePublished = (status) => {
-    TutorialDataService.update(currentTutorial.id, { published: status })
+
+  const updateIsCheckedOut = (status) => {
+    DeviceDataService.update(currentDevice.id, { isCheckedOut: status })
       .then(() => {
-        setCurrentTutorial({ ...currentTutorial, published: status });
-        setMessage("The status was updated successfully!");
+        const now = new Date().getHours()
+
+        if (now >= 9 && now <= 12 && status === true) {
+          console.log(now , "time")
+          setCurrentDevice({ ...currentDevice, isCheckedOut: status, lastCheckoutTime });
+          setMessage("The status was updated successfully!");
+        } else {
+          setMessage("You can only Check Out Between 9:00am - 17:00pm");
+
+        }
+    
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const updateTutorial = () => {
+  const updateDevice = () => {
     const data = {
-      title: currentTutorial.title,
-      description: currentTutorial.description,
+      title: currentDevice.title,
+      description: currentDevice.description,
     };
 
-    TutorialDataService.update(currentTutorial.id, data)
+    DeviceDataService.update(currentDevice.id, data)
       .then(() => {
-        setMessage("The tutorial was updated successfully!");
+        setMessage("The device was updated successfully!");
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const deleteTutorial = () => {
-    TutorialDataService.remove(currentTutorial.id)
+  const deleteDevice = () => {
+    DeviceDataService.remove(currentDevice.id)
       .then(() => {
         props.refreshList();
       })
@@ -60,9 +71,9 @@ const Tutorial = (props) => {
 
   return (
     <div>
-      {currentTutorial ? (
+      {currentDevice ? (
         <div className="edit-form">
-          <h4>Tutorial</h4>
+          <h4>Device</h4>
           <form>
             <div className="form-group">
               <label htmlFor="title">Title</label>
@@ -71,7 +82,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="title"
                 name="title"
-                value={currentTutorial.title}
+                value={currentDevice.title}
                 onChange={handleInputChange}
               />
             </div>
@@ -82,7 +93,7 @@ const Tutorial = (props) => {
                 className="form-control"
                 id="description"
                 name="description"
-                value={currentTutorial.description}
+                value={currentDevice.description}
                 onChange={handleInputChange}
               />
             </div>
@@ -91,34 +102,34 @@ const Tutorial = (props) => {
               <label>
                 <strong>Status:</strong>
               </label>
-              {currentTutorial.published ? "Published" : "Pending"}
+              {currentDevice.isCheckedOut ? "Checked In" : "Checked Out"}
             </div>
           </form>
 
-          {currentTutorial.published ? (
+          {currentDevice.isCheckedOut ? (
             <button
               className="badge badge-primary mr-2"
-              onClick={() => updatePublished(false)}
+              onClick={() => updateIsCheckedOut(false)}
             >
-              UnPublish
+              Checked Out
             </button>
           ) : (
             <button
               className="badge badge-primary mr-2"
-              onClick={() => updatePublished(true)}
+              onClick={() => updateIsCheckedOut(true)}
             >
-              Publish
+              Checked In
             </button>
           )}
 
-          <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
+          <button className="badge badge-danger mr-2" onClick={deleteDevice}>
             Delete
           </button>
 
           <button
             type="submit"
             className="badge badge-success"
-            onClick={updateTutorial}
+            onClick={updateDevice}
           >
             Update
           </button>
@@ -127,11 +138,11 @@ const Tutorial = (props) => {
       ) : (
         <div>
           <br />
-          <p>Please click on a Tutorial...</p>
+          <p>Please click on a Device...</p>
         </div>
       )}
     </div>
   );
 };
 
-export default Tutorial;
+export default Device;

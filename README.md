@@ -1,47 +1,6 @@
-# React Hooks Firestore: CRUD App with Firebase Cloud Firestore
-
-We're gonna build an React Firestore App using [firebase](https://www.npmjs.com/package/firebase) library in which:
-- Each Tutorial has id, title, description, published status.
-- We can create, retrieve, update, delete Tutorials (CRUD operations) from Firebase Cloud Firestore
-
-![react-hooks-firestore-example-crud-app](react-hooks-firestore-example-crud-app.png)
-
-For instruction, please visit:
-> [React Hooks Firestore example: Build a CRUD app](https://bezkoder.com/react-hooks-firestore/)
-
-More practice:
-> [React Firebase Hooks: CRUD App with Realtime Database example](https://bezkoder.com/react-firebase-hooks-crud/)
-
-> [React (Hooks) CRUD example to consume Web API](https://bezkoder.com/react-hooks-crud-axios-api/)
-
-> [React Pagination using Hooks example](https://bezkoder.com/react-pagination-hooks/)
-
-> [React Hooks File Upload example](https://bezkoder.com/react-hooks-file-upload/)
-
-> [React Hooks: JWT Authentication & Authorization example](https://bezkoder.com/react-hooks-jwt-auth/)
-
-> [React + Redux + Hooks: JWT Authentication & Authorization example](https://bezkoder.com/react-hooks-redux-login-registration-example/)
-
-Fullstack with Node.js Express:
-> [React.js + Node.js Express + MySQL](https://bezkoder.com/react-node-express-mysql/)
-
-> [React.js + Node.js Express + PostgreSQL](https://bezkoder.com/react-node-express-postgresql/)
-
-> [React.js + Node.js Express + MongoDB](https://bezkoder.com/react-node-express-mongodb-mern-stack/)
-
-Fullstack with Spring Boot:
-> [React.js + Spring Boot + MySQL](https://bezkoder.com/react-spring-boot-crud/)
-
-> [React.js + Spring Boot + PostgreSQL](https://bezkoder.com/spring-boot-react-postgresql/)
-
-> [React.js + Spring Boot + MongoDB](https://bezkoder.com/react-spring-boot-mongodb/)
-
-Fullstack with Django:
-
-> [React.js Hooks + Django Rest Framework](https://bezkoder.com/django-react-hooks/)
+# React Hooks Firestore: Device Check In
 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Project setup
 
@@ -65,4 +24,17 @@ yarn start
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.
+#### Compiles and hot-reloads for development
+
+Your application must:
+- Display a list of devices currently in storage
+- Be able to add and remove devices
+- Be able to check-in/out a device to/from storage Give good user feedback on the status of all devices Save updates to a database of your choosing
+Run without issues
+- Edge cases your application should handle:
+- Attempt to check out a device that's already checked out
+- Checkouts can only be performed between 9:00am - 17:00pm
+- Indicate if a device has been checked out for more than a week
+- Max number of allowed in the garage is 10, the system should prevent adding more. 
+- Each person can only check out one device at a time.
+
